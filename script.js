@@ -1,14 +1,16 @@
-const url1 =  "http://sb-cats.herokuapp.com/api/2/alexeysitnikov/show";
-// fetch(url1)
-// .then((response)=>response.json())
-// .then((json)=>{console.log(json)});
+const getAllCatsURL =  "http://sb-cats.herokuapp.com/api/2/alexeysitnikov/show";
 
+const $buttonGetAllCats = document.querySelector('[data-getAllCats]');
+const $divContainer = document.querySelector('[data-container]');
 
-let response = await fetch(url1);
-
-if (response.ok) { // если HTTP-статус в диапазоне 200-299
-  // получаем тело ответа (см. про этот метод ниже)
-  let json = await response.json();
-} else {
-  alert("Ошибка HTTP: " + response.status);
+const getAllCats = ()=>{
+  fetch(getAllCatsURL)
+  .then((response)=>response.json())
+  .then((json)=>{console.log(json)});
 }
+
+
+$buttonGetAllCats.addEventListener("click", getAllCats);
+
+
+
