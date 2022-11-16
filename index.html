@@ -7,18 +7,93 @@
   <!-- CSS only -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" 
   integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
   <script defer src="/script.js"></script>
   <title>Document</title>
 </head>
 <body>  
   <div>    
     <h1>Cats</h1>
+    <div class="d-flex justify-content-center">
+      <button data-open_modal type="button" class="btn btn-success my-5">Add</button>
+    </div>
     <button data-getAllCats>Get all cats</button>
   </div>
   <div class="container">
-    <div data-container class="d-flex flex-raw flex-wrap align-items-center">
+    
+    <div data-container class="d-flex flex-raw flex-wrap justify-content-center">
       
     </div>
+  </div>
+  <div data-modal_window class="modal-wr hidden">
+    <div class="d-flex justify-content-center custom-modal">
+      <form name="add_cat">
+        <div class="mb-3">          
+          <input 
+            placeholder="Id"
+            name="id"
+            type="text" 
+            class="form-control" 
+            id="exampleInputEmail1" 
+            aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">          
+          <input 
+            placeholder="Age"
+            name="age"
+            type="number" 
+            class="form-control" 
+            id="exampleInputEmail1" 
+            aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">          
+          <input 
+            placeholder="Name"
+            name="name"
+            type="text" 
+            class="form-control" 
+            id="exampleInputEmail1" 
+            aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">          
+          <input 
+            placeholder="Rate"
+            name="rate"
+            type="number" 
+            class="form-control" 
+            id="exampleInputEmail1" 
+            aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">          
+          <input 
+            placeholder="Description"
+            name="description"
+            type="text" 
+            class="form-control" 
+            id="exampleInputEmail1" 
+            aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3 form-check">
+          <input 
+          name="Favourite"
+            type="checkbox" 
+            class="form-check-input" 
+            id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Favourite</label>
+        </div>
+        <div class="mb-3">          
+          <input 
+            placeholder="Link"
+            name="link"
+            type="text" 
+            class="form-control" 
+            id="exampleInputEmail1" 
+            aria-describedby="emailHelp">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    
   </div>
 </body>
 </html>
