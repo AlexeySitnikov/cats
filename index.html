@@ -12,12 +12,12 @@
   <title>Document</title>
 </head>
 <body>  
-  <div>    
+  <div class="d-flex justify-content-center">    
     <h1>Cats</h1>
-    <div class="d-flex justify-content-center">
+    <div>
       <button data-open_modal type="button" class="btn btn-success my-5">Add</button>
     </div>
-    <button data-getAllCats>Get all cats</button>
+    <!-- <button data-getAllCats>Get all cats</button> -->
   </div>
   <div class="container">
     
@@ -49,7 +49,7 @@
         <div class="mb-3">          
           <input 
             placeholder="Name"
-            name="name"
+            name="catName"
             type="text" 
             class="form-control" 
             id="exampleInputEmail1" 
@@ -64,7 +64,7 @@
             id="exampleInputEmail1" 
             aria-describedby="emailHelp">
         </div>
-        <div class="mb-3">          
+        <!-- <div class="mb-3">          
           <input 
             placeholder="Description"
             name="description"
@@ -72,10 +72,14 @@
             class="form-control" 
             id="exampleInputEmail1" 
             aria-describedby="emailHelp">
+        </div> -->
+        <div class="mb-3">
+          <textarea id="story" name="description">          
+          </textarea>
         </div>
         <div class="mb-3 form-check">
           <input 
-          name="Favourite"
+            name="favourite"
             type="checkbox" 
             class="form-check-input" 
             id="exampleCheck1">
