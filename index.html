@@ -12,21 +12,27 @@
   <title>Document</title>
 </head>
 <body>  
-  <div class="d-flex justify-content-center">    
-    <h1>Cats</h1>
-    <div>
-      <button data-open_modal type="button" class="btn btn-success my-5">Add</button>
-    </div>
-    <!-- <button data-getAllCats>Get all cats</button> -->
-  </div>
+  
+
   <div class="container">
-    
-    <div data-container class="d-flex flex-raw flex-wrap justify-content-center">
-      
+    <div class="d-flex flex-column align-items-center my-5">    
+      <h1>Cats</h1>
+      <div>
+        <button data-open_modal type="button" class="btn btn-success my-5">Add</button>
+      </div>
+      <!-- <button data-getAllCats>Get all cats</button> -->
     </div>
+    
+    <div data-container class="d-flex flex-raw flex-wrap justify-content-center">      
+    </div>
+
   </div>
-  <div data-modal_window class="modal-wr hidden">
-    <div class="d-flex justify-content-center custom-modal">
+  <div data-modal_window class="modal-wr hidden"> 
+       
+    <div class="flex-column justify-content-center custom-modal">
+      <div>
+        <img src="" class="card-img-top align-self-center my-1" style="width: 200px" alt="Cat image">
+      </div>
       <form name="add_cat">
         <div class="mb-3">          
           <input 
@@ -49,7 +55,7 @@
         <div class="mb-3">          
           <input 
             placeholder="Name"
-            name="catName"
+            name="name"
             type="text" 
             class="form-control" 
             id="exampleInputEmail1" 
@@ -63,16 +69,7 @@
             class="form-control" 
             id="exampleInputEmail1" 
             aria-describedby="emailHelp">
-        </div>
-        <!-- <div class="mb-3">          
-          <input 
-            placeholder="Description"
-            name="description"
-            type="text" 
-            class="form-control" 
-            id="exampleInputEmail1" 
-            aria-describedby="emailHelp">
-        </div> -->
+        </div>        
         <div class="mb-3">
           <textarea id="story" name="description">          
           </textarea>
@@ -86,15 +83,17 @@
           <label class="form-check-label" for="exampleCheck1">Favourite</label>
         </div>
         <div class="mb-3">          
-          <input 
+          <input data-img_link
             placeholder="Link"
-            name="link"
+            name="img_link"
             type="text" 
             class="form-control" 
             id="exampleInputEmail1" 
             aria-describedby="emailHelp">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button data-action="submit" type="submit" class="btn btn-primary hidden-button">Submit</button>
+        <button data-action="change" type="button" class="btn btn-success">Change</button>
+        <button data-action="delete" type="button" class="btn btn-danger">Delete</button>
       </form>
     </div>
     

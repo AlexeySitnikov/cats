@@ -2,6 +2,7 @@ const getAllCatsURL =  "http://sb-cats.herokuapp.com/api/2/alexeysitnikov/show";
 const deleteCardById = " http://sb-cats.herokuapp.com/api/2/alexeysitnikov/delete/";
 const addCatURL = "http://sb-cats.herokuapp.com/api/2/alexeysitnikov/add";
 const getOneCat = "http://sb-cats.herokuapp.com/api/2/alexeysitnikov/show/";
+const changeCatURL = "http://sb-cats.herokuapp.com/api/2/alexeysitnikov/update/";
 
 // const $buttonGetAllCats = document.querySelector('[data-getAllCats]');
 const $divContainer = document.querySelector('[data-container]');
@@ -10,15 +11,19 @@ const $modalWindow = document.querySelector(`[data-modal_window]`);
 
 
 const cardsHTML = (card)=>{
-  return `<div data-card_id=${card.id} class="card my-60" style="width: 18rem;">
-  <img src="${card.img_link}" class="card-img-top" alt="${card.name}">
-  <div class="card-body">
-    <h5 class="card-title">${card.name}</h5>
-    <p class="card-text">${card.description}</p>
-  </div>
-  <button data-action="show" type="button" class="btn btn-primary">Show</button>
-  <button data-action="delete" type="button" class="btn btn-danger">Delete</button>
-</div>`;  
+  return `<div data-card_id=${card.id} class="card my-3 mx-5 px-2 py-2" style="width: 18rem;">
+    <img src="${card.img_link}" class="card-img-top align-self-center" style="width: 200px" alt="${card.name}">
+    <div class="card-body">
+      <div class="d-flex justify-content-center">
+        <h5 class="card-title">${card.name}</h5>
+      </div>
+      <p class="card-text" style="text-justify:inter-word;">${card.description}</p>
+    </div>
+    <div class="d-flex justify-content-around">
+      <button data-action="show" type="button" class="btn btn-primary">Show</button>
+      <button data-action="delete" type="button" class="btn btn-danger">Delete</button>
+    </div>
+    </div>`;  
 }
 
 const getAllCats = ()=>{
@@ -37,6 +42,16 @@ async function deleteCard(id){
 
 }
 
+async function changeCat(data){
+  const response = await fetch(`${changeCatURL}${data.id}`,{
+    method: `PUT`,
+    headers: {
+      'Content-type': `application/json`,
+    },
+    body: JSON.stringify(data),
+  })
+}
+
 async function addCat(data){
   const response = await fetch(`${addCatURL}`,{
     method: `POST`,
@@ -48,27 +63,20 @@ async function addCat(data){
 }
 
 async function showCatCard(id){
-// console.log(document.forms.add_cat.name);
-  // $modalWindow.classList.remove('hidden');
   fetch(`${getOneCat}${id}`)
   .then((response)=>response.json())
   .then((json)=>{
-    // console.log(json.data.name);
-    console.log(document.forms.add_cat);
-    document.forms.add_cat.id.placeholder = json.data.id;
-    document.forms.add_cat.age.placeholder = json.data.age ?? 0;
-    document.forms.add_cat.catName.placeholder = json.data.name;
-    document.forms.add_cat.rate.placeholder = json.data.rate ?? 0;
+    document.forms.add_cat.id.value = json.data.id;
+    document.forms.add_cat.age.value = json.data.age ?? 0;
+    document.forms.add_cat.name.value = json.data.name;
+    document.forms.add_cat.rate.value = json.data.rate ?? 0;
     document.forms.add_cat.description.value = json.data.description;
-    document.forms.add_cat.favourite.placeholder = json.data.favourite;
-    document.forms.add_cat.link.placeholder = json.data.img_link;
-    // console.log(document.forms.add_cat.catName);
-    // console.log();
+    document.forms.add_cat.favourite.value = json.data.favourite;
+    document.forms.add_cat.img_link.value = json.data.img_link;
+    $modalWindow.querySelector('img').src = json.data.img_link;
   });
   $modalWindow.classList.remove('hidden');
 }
-
-
 
 $divContainer.addEventListener("click",(e)=>{
   if (e.target.dataset.action === "show"){
@@ -89,17 +97,41 @@ document.forms.add_cat.addEventListener('submit',(e)=>{
   addCat(data);
   $divContainer.insertAdjacentHTML('beforeend',cardsHTML(data));
   $modalWindow.classList.add('hidden');
-  e.target.reset();
+  document.forms.add_cat.reset();
+  $modalWindow.querySelector('img').src = "";
+});
+
+document.forms.add_cat.addEventListener('input', (e)=>{
+  console.log({e});
+  // localStorage.setItem();
 });
 
 $buttonAddCat.addEventListener('click',(e)=>{
   $modalWindow.classList.remove(`hidden`);
+  // localStorage.getItem();
 });
 
 document.addEventListener('keydown',(e)=>{  
   if (e.key === `Escape`){    
     $modalWindow.classList.add(`hidden`);
+    document.forms.add_cat.reset();
+    $modalWindow.querySelector('img').src = "";
+  }
+});
+
+$modalWindow.addEventListener("click",(e)=>{
+  if (e.target.dataset.action === "change"){
+    console.log(e.target);
+  }
+  else if (e.target.dataset.action === "delete"){
+    $modalWindow.classList.add(`hidden`);
+    deleteCard(document.forms.add_cat.id.value);
+    $divContainer.querySelector(`[data-card_id="${document.forms.add_cat.id.value}"]`).remove();
   }
 });
 
 getAllCats();
+
+$modalWindow.querySelector(`[data-img_link]`).addEventListener('input', (e)=>{
+  $modalWindow.querySelector('img').src = e.target.value;
+});
