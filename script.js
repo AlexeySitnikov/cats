@@ -82,6 +82,7 @@ async function showCatCard(id){
 $divContainer.addEventListener("click",(e)=>{
   if (e.target.dataset.action === "show"){
     showCatCard(e.target.closest(`[data-card_id]`).dataset.card_id);
+    $modalWindow.querySelector(`[data-action="submit"]`).classList.add('hidden-button-submit');
     $modalWindow.querySelector(`[data-action="change"]`).classList.remove('hidden-button-change');
     $modalWindow.querySelector(`[data-action="delete"]`).classList.remove('hidden-button-delete');
     document.forms.add_cat.id.readOnly = true;
