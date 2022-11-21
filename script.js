@@ -49,7 +49,8 @@ async function changeCat(data){
       'Content-type': `application/json`,
     },
     body: JSON.stringify(data),
-  })
+  });
+  console.log(data.id);
 }
 
 async function addCat(data){
@@ -81,6 +82,10 @@ async function showCatCard(id){
 $divContainer.addEventListener("click",(e)=>{
   if (e.target.dataset.action === "show"){
     showCatCard(e.target.closest(`[data-card_id]`).dataset.card_id);
+    $modalWindow.querySelector(`[data-action="change"]`).classList.remove('hidden-button-change');
+    $modalWindow.querySelector(`[data-action="delete"]`).classList.remove('hidden-button-delete');
+    document.forms.add_cat.id.readOnly = true;
+    document.forms.add_cat.name.readOnly = true;
   }
   else if (e.target.dataset.action === "delete"){
     deleteCard(e.target.closest(`[data-card_id]`).dataset.card_id);
@@ -102,26 +107,39 @@ document.forms.add_cat.addEventListener('submit',(e)=>{
 });
 
 document.forms.add_cat.addEventListener('input', (e)=>{
-  console.log({e});
+  // console.log({e});
   // localStorage.setItem();
 });
 
 $buttonAddCat.addEventListener('click',(e)=>{
   $modalWindow.classList.remove(`hidden`);
+  $modalWindow.querySelector(`[data-action="submit"]`).classList.remove('hidden-button-submit');
+  document.forms.add_cat.id.readOnly = false;
+  document.forms.add_cat.name.readOnly = false;
   // localStorage.getItem();
 });
 
 document.addEventListener('keydown',(e)=>{  
   if (e.key === `Escape`){    
     $modalWindow.classList.add(`hidden`);
+    $modalWindow.querySelector(`[data-action="submit"]`).classList.add('hidden-button-submit');
+    $modalWindow.querySelector(`[data-action="change"]`).classList.add('hidden-button-change');
+    $modalWindow.querySelector(`[data-action="delete"]`).classList.add('hidden-button-delete');
     document.forms.add_cat.reset();
     $modalWindow.querySelector('img').src = "";
   }
 });
 
-$modalWindow.addEventListener("click",(e)=>{
+$modalWindow.addEventListener("click",(e)=>{  
   if (e.target.dataset.action === "change"){
-    console.log(e.target);
+    const data = Object.fromEntries(new FormData(document.forms.add_cat).entries());
+    data.id = Number(data.id);
+    data.rate = Number(data.rate);
+    data.favourite = data.favourite === 'on';
+    changeCat(data);
+    $modalWindow.classList.add(`hidden`);
+    // console.log(document.forms.add_cat);
+    // window.location.reload();
   }
   else if (e.target.dataset.action === "delete"){
     $modalWindow.classList.add(`hidden`);

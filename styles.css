@@ -22,6 +22,14 @@
   display: none;
 }
 
-.hidden-button{
+.hidden-button-submit{
+  display: none;
+}
+
+.hidden-button-change{
+  display: none;
+}
+
+.hidden-button-delete{
   display: none;
 }

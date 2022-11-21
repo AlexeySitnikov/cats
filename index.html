@@ -34,7 +34,8 @@
         <img src="" class="card-img-top align-self-center my-1" style="width: 200px" alt="Cat image">
       </div>
       <form name="add_cat">
-        <div class="mb-3">          
+        <div class="mb-3 flex-column">
+          <label for="id">ID</label>
           <input 
             placeholder="Id"
             name="id"
@@ -43,7 +44,8 @@
             id="exampleInputEmail1" 
             aria-describedby="emailHelp">
         </div>
-        <div class="mb-3">          
+        <div class="mb-3 flex-column">
+          <label for="age">Age</label>          
           <input 
             placeholder="Age"
             name="age"
@@ -52,7 +54,8 @@
             id="exampleInputEmail1" 
             aria-describedby="emailHelp">
         </div>
-        <div class="mb-3">          
+        <div class="mb-3 flex-column">    
+          <label for="name">Cat name</label>      
           <input 
             placeholder="Name"
             name="name"
@@ -61,7 +64,8 @@
             id="exampleInputEmail1" 
             aria-describedby="emailHelp">
         </div>
-        <div class="mb-3">          
+        <div class="mb-3 flex-column">          
+          <label for="rate">Cat rate</label>
           <input 
             placeholder="Rate"
             name="rate"
@@ -70,11 +74,13 @@
             id="exampleInputEmail1" 
             aria-describedby="emailHelp">
         </div>        
-        <div class="mb-3">
+        <div class="mb-3 flex-column">
+          <label for="description">Description</label>
           <textarea id="story" name="description">          
           </textarea>
         </div>
-        <div class="mb-3 form-check">
+        <div class="mb-3 form-check flex-column">
+          <label for="favourite">Favourite</label>
           <input 
             name="favourite"
             type="checkbox" 
@@ -82,7 +88,8 @@
             id="exampleCheck1">
           <label class="form-check-label" for="exampleCheck1">Favourite</label>
         </div>
-        <div class="mb-3">          
+        <div class="mb-3 flex-column">          
+          <label for="img_link">Link to cat image</label>
           <input data-img_link
             placeholder="Link"
             name="img_link"
@@ -91,9 +98,9 @@
             id="exampleInputEmail1" 
             aria-describedby="emailHelp">
         </div>
-        <button data-action="submit" type="submit" class="btn btn-primary hidden-button">Submit</button>
-        <button data-action="change" type="button" class="btn btn-success">Change</button>
-        <button data-action="delete" type="button" class="btn btn-danger">Delete</button>
+        <button data-action="submit" type="submit" class="btn btn-primary hidden-button-submit">Submit</button>
+        <button data-action="change" type="button" class="btn btn-success hidden-button-change">Change</button>
+        <button data-action="delete" type="button" class="btn btn-danger hidden-button-delete">Delete</button>
       </form>
     </div>
     
