@@ -26,6 +26,7 @@ const cardsHTML = (card)=>{
     </div>`;  
 }
 
+//функция запускается при открытии страницы, запрашивает всю информацию из БД и добавляет результат на страницу
 const getAllCats = ()=>{
   fetch(getAllCatsURL)
   .then((response)=>response.json())
@@ -34,6 +35,7 @@ const getAllCats = ()=>{
   });
 }
 
+//функция вызывается при нажатии на кнопку DELETE, получает на входе ID объекта (карточки) и отправляет запрос на удаление из БД. Ошибки из БД не отрабатываеются.
 async function deleteCard(id){
   const response = await fetch(`${deleteCardById}${id}`,{
     method: `DELETE`,
@@ -42,6 +44,7 @@ async function deleteCard(id){
 
 }
 
+//функция вызывается при нажатии на кнопку CHANGE, получает на вход данные объекта (карточки) и отправляет запрос в БД на изменения данных по ID объекта. Ошибки из БД не отрабатываюстся.
 async function changeCat(data){
   const response = await fetch(`${changeCatURL}${data.id}`,{
     method: `PUT`,
@@ -50,9 +53,10 @@ async function changeCat(data){
     },
     body: JSON.stringify(data),
   });
-  console.log(data.id);
+  // console.log(data.id);
 }
 
+//функция вызывается при нажатии на кнопку ADD, получает на вход данные объекта (карточки) и отправляет запрос в БД на добавления данных в БД. Ошибки из БД не отрабатываются (например ошибка при добалении объекта с тем же ID).
 async function addCat(data){
   const response = await fetch(`${addCatURL}`,{
     method: `POST`,
@@ -63,6 +67,7 @@ async function addCat(data){
   })
 }
 
+//функция вызывается при нажатии на кнопку SHOW, получает на вход ID объекта (карточки), отправляет запрос в БД и отображает полученную из БД информацию. 
 async function showCatCard(id){
   fetch(`${getOneCat}${id}`)
   .then((response)=>response.json())
@@ -79,6 +84,7 @@ async function showCatCard(id){
   $modalWindow.classList.remove('hidden');
 }
 
+//на весь контейнер навешивается обработчик события "клика". Далее анализируется по какому объекту был произведен клик.
 $divContainer.addEventListener("click",(e)=>{
   if (e.target.dataset.action === "show"){
     showCatCard(e.target.closest(`[data-card_id]`).dataset.card_id);
@@ -94,6 +100,7 @@ $divContainer.addEventListener("click",(e)=>{
   }
 });
 
+//на форму добавления информации на карточку навешивается обработчик события "отправки". Данные компануются и вызывается функция отправки информации.
 document.forms.add_cat.addEventListener('submit',(e)=>{
   e.preventDefault();
   const data = Object.fromEntries(new FormData(e.target).entries());
@@ -107,19 +114,28 @@ document.forms.add_cat.addEventListener('submit',(e)=>{
   $modalWindow.querySelector('img').src = "";
 });
 
+//на форму добавления информации на карточку навешивается обработчик события "ввода". По данному событию формируется запись в localStorage
 document.forms.add_cat.addEventListener('input', (e)=>{
-  // console.log({e});
-  // localStorage.setItem();
+  const data = Object.fromEntries(new FormData(document.forms.add_cat).entries());
+  localStorage.setItem("cat", JSON.stringify(data));
 });
 
+//на кнопку добавления информации на карточку навешивается обработчик события "клик". По данному событию происходит чтение из localStorage и происходит заполение формы добавления информации.
 $buttonAddCat.addEventListener('click',(e)=>{
   $modalWindow.classList.remove(`hidden`);
   $modalWindow.querySelector(`[data-action="submit"]`).classList.remove('hidden-button-submit');
   document.forms.add_cat.id.readOnly = false;
   document.forms.add_cat.name.readOnly = false;
-  // localStorage.getItem();
+  const dataObj = JSON.parse(localStorage.getItem('cat'));
+  if (dataObj){
+    Object.keys(dataObj).forEach(key=>{      
+      document.forms.add_cat[key].value = dataObj[key];
+    });
+  }
+  
 });
 
+//на всю страницу навешивается обработчик события "нажатия на кнопку". Далее анализируется соответствует ли кнопка Escape. Если да, то закрывается форма ввода и просмотра информации.
 document.addEventListener('keydown',(e)=>{  
   if (e.key === `Escape`){    
     $modalWindow.classList.add(`hidden`);
@@ -131,6 +147,7 @@ document.addEventListener('keydown',(e)=>{
   }
 });
 
+//на форму ввода и просмотра информации навешивается обработчик события "клик". Далее анализируется на каую кнопу было нажато и вызывается соответствующая функция.
 $modalWindow.addEventListener("click",(e)=>{  
   if (e.target.dataset.action === "change"){
     const data = Object.fromEntries(new FormData(document.forms.add_cat).entries());
@@ -139,8 +156,6 @@ $modalWindow.addEventListener("click",(e)=>{
     data.favourite = data.favourite === 'on';
     changeCat(data);
     $modalWindow.classList.add(`hidden`);
-    // console.log(document.forms.add_cat);
-    // window.location.reload();
   }
   else if (e.target.dataset.action === "delete"){
     $modalWindow.classList.add(`hidden`);
@@ -149,8 +164,10 @@ $modalWindow.addEventListener("click",(e)=>{
   }
 });
 
-getAllCats();
-
+//на элемент "img" формы ввода и просмотра информации навешивается обработчик события "ввода". При срабатывании события элементу "img" присваивается значение из "img_link" - для отображения картинки
 $modalWindow.querySelector(`[data-img_link]`).addEventListener('input', (e)=>{
   $modalWindow.querySelector('img').src = e.target.value;
 });
+
+//вызов функции запроса и отображения всей информации из БД
+getAllCats();
